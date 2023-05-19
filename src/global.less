@@ -1,0 +1,159 @@
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  margin: 0!important;
+  padding: 0;
+}
+.fr {
+  float: right;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tc {
+  text-align: center;
+}
+
+.mg-top {
+  margin-top: 14px;
+}
+
+.space_row {
+  width: 100%;
+}
+
+.space_between {
+  justify-content: space-between;
+}
+
+.no-rule {
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+}
+
+.no-bottom {
+  .ant-card-body {
+    padding-bottom: 0px;
+  }
+}
+
+.rule_modal {
+  .ant-modal-body {
+    padding-bottom: 0px;
+  }
+}
+
+.side_layout,
+.content_layout {
+  background: #fff;
+  overflow: auto;
+}
+
+.side_layout {
+  // border-right: 1px solid #eee;
+
+  .ant-menu-vertical {
+    border-right: none;
+  }
+}
+
+.content_layout {
+  padding-left: 14px;
+}
+
+.ant-input[disabled],
+.ant-select-disabled.ant-select-single:not(.ant-select-customize-input)
+  .ant-select-selector {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.danger_color {
+  color: #f56c6c;
+}
+
+.ant-tree-show-line .ant-tree-indent-unit::before {
+  top: 0;
+  right: 12px;
+}
+
+.ant-space-item {
+  .ant-divider-vertical {
+    margin: 0;
+  }
+}
+
+.policy_form {
+  .ant-form-item-label > label {
+    height: unset;
+    min-height: 32px;
+    white-space: break-spaces;
+  }
+  .ant-form-item {
+    align-items: center;
+  }
+}
+#root {
+  height: 100%;
+}
+.grow-wrap {
+  /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
+  display: grid;
+  width: 100px;
+}
+
+.grow-wrap::after {
+  /* Note the weird space! Needed to preventy jumpy behavior */
+  content: attr(data-replicated-value) ' ';
+
+  /* This is how textarea text behaves */
+  white-space: pre-wrap;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+
+.grow-wrap > textarea {
+  /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+  resize: none;
+
+  /* Firefox shows scrollbar on growth, you can hide like this. */
+  overflow: hidden;
+}
+
+.grow-wrap > textarea,
+.grow-wrap::after {
+  /* Identical styling required!! */
+  border: 1px solid black;
+  padding: 0.5rem;
+  font: inherit;
+
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.core-context-menu {
+  display: none;
+  position: absolute;
+  width: 130px;
+  background-color: white;
+  box-shadow: 0 0 5px grey;
+  border-radius: 3px;
+  z-index: 1;
+}
+
+.core-context-menu button {
+  width: 100%;
+  background-color: white;
+  border: none;
+  margin: 0;
+  padding: 6px;
+}
+
+.core-context-menu button:hover {
+  background-color: lightgray;
+}

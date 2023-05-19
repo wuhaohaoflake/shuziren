@@ -1,0 +1,2 @@
+build/nginx.conf merge=ours
+src/utils/apiurl.ts merge=ours

@@ -1,0 +1,114 @@
+.slider {
+  width: 60px;
+  height: 100%;
+  position: relative;
+  .toolbar {
+    width: 60px;
+	height: 100%;
+	background-color: #f4f4f6;
+	z-index: 99;
+	position: absolute;
+	top: 0;
+	right: 0;
+    .item {
+      width: 100%;
+      height: 60px;
+	  padding-top: 8px;
+      cursor: pointer;
+      text-align: center;
+	  margin-bottom: 10px;
+	  color: #999;
+	  .icon-image {
+		width: 24px;
+		height: 24px;
+		background-size: 100% 100%;
+		margin: 0 auto;
+	  }
+	  .text_n {
+		background: url(../../../images/text_n.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .text_a {
+		background: url(../../../images/text_a.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .shuziren_n {
+		background: url(../../../images/shuziren_n.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .shuziren_a {
+		background: url(../../../images/shuziren_a.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .voice_n {
+		background: url(../../../images/voice_n.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .voice_a {
+		background: url(../../../images/voice_a.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .image_n {
+		background: url(../../../images/image_n.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .image_a {
+		background: url(../../../images/image_a.png) center no-repeat;
+		background-size: 100% 100%;
+	  }
+    }
+    .active {
+    //   background: #1677ff;
+	  color: #409eff;
+    }
+  }
+  #infoDetail {
+	height: 100%;
+	background: #fff;
+	position: absolute;
+	top: 0;
+	right: 60px;
+	transition: width .5s ease-in-out;
+	z-index: 999;
+	overflow-y: auto;
+	.info-left {
+		position: absolute;
+		width: 16px;
+		height: 60px;
+		left: -16px;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		background: url(../../../images/toogle-btn.png) center no-repeat;
+		background-size: 100% 100%;
+	}
+	.info-right {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		cursor: pointer;
+		.info-title {
+			width: 100%;
+			height: 48px;
+			// background: #f4f4f6;
+			border-bottom: 1px solid #f2f2f2;
+			padding: 0 16px;
+			display: flex;
+			align-items: center;
+			.text {
+				font-size: 14px;
+				font-weight: 500;
+				color: #000;
+				margin-left: 16px;
+			}
+			.close {
+				width: 22px;
+				height: 22px;
+				// background: url(../../../images/unindent.png) 0 0 no-repeat;
+				// background-size: contain;
+				cursor: pointer;
+			}
+		}
+	}
+  }
+}

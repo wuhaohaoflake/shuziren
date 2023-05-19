@@ -1,0 +1,59 @@
+.main {
+  width: 368px;
+  margin: 0 auto;
+}
+#loginBox {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  .left_box {
+    width: 500px;
+    height: 100%;
+    float: left;
+    background: url(./image/login_left.png) no-repeat;
+    background-size: 100% 100%;
+  }
+  .main_box {
+    width: auto;
+    height: 100%;
+    margin-left: 500px;
+    background-color: #fff;
+    position: relative;
+    .right_box {
+      width: 600px;
+      height: 600px;
+      text-align: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      .orther-icon {
+        width: 80%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        margin-top: 40px;
+      }
+      .login_main_box {
+        width: 80%;
+        text-align: center;
+        margin: 0 auto;
+        margin-top: 80px;
+        .login_form {
+          .ant-form-item {
+            margin-bottom: 30px;
+            input {
+              width: 100%;
+              height: 50px;
+            }
+            button {
+              height: 50px;
+              border-radius: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
