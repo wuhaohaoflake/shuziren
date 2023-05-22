@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Modal, Form, Input, Spin, message, Tooltip } from 'antd';
 import { history, connect, useDispatch } from 'umi';
-import { EditOutlined, DownCircleOutlined, UpCircleOutlined, DeleteOutlined, CopyOutlined, PictureOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { EditOutlined, DownCircleOutlined, UpCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import useModel from 'flooks';
 import canvasModel from '@/models1/canvasModel';
@@ -81,9 +81,9 @@ const firstPage: any = {
 			"fontFamily":"Microsoft YaHei",
 			backgroundColor: '#000',
 			"type":"text-input",
-			"text":"劳动合同法知识小科普",
+			"text":"双击编辑标题",
 			"fill":"#ffffff",
-			width:600,
+			width:500,
 			"x":112.5,
 			"y":112,
 			"name":"node",
@@ -97,7 +97,7 @@ const firstPage: any = {
 			"type":"text-input",
 			"text":"桐乡市普法局",
 			"fill":"#ffffff",
-			width:600,
+			width:400,
 			"x":222.5,
 			"y":250,
 			"name":"node",
@@ -130,7 +130,7 @@ const AboutPage = (props: any) => {
   const { canvasRef } = useModel(canvasModel);
   const [movieVisible, setMovieVisible] = useState(false);
   const [soundsList, setSoundsList] = useState<any>([]);
-  const [personList, setPersonList] = useState<any>([{cover: 'https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png', id: '195803445'}, {cover: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png', id: '195803445'}, , {cover: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/b0ee948429e9480f86cfd8657c7ad1fc.png', id: '195803445'}]);
+  const [personList, setPersonList] = useState<any>([{cover: 'https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png', id: '195803445'}, {cover: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/b0ee948429e9480f86cfd8657c7ad1fc.png', id: '195803446'}]);
   const [movieId, setMovieId] = useState<any>(null);
   const [movieUrl, setMovieUrl] = useState<any>(null);
   const [timer, setTimer] = useState<any>(null);
@@ -157,16 +157,16 @@ const AboutPage = (props: any) => {
 
   useEffect(() => {
 	// getShuzirenList();
-    // setTimeout(() => {
-    //   getSoundsList();
-    // }, 3000);
+    
     // if (selectIndex > 0) {
     //   let dom: any = document.querySelector('#pageBox');
     //   setTimeout(() => {
     //     dom.scrollTo(0, selectIndex * 100);
     //   }, 200);
     // }
+	getSoundsList();
 	sessionStorage.setItem('textEdit', 'false');
+	sessionStorage.setItem('sperkerId', '743');
 	let query = props.location.query;
     if (query.token) {
 		localStorage.setItem('token', query.token);
@@ -211,7 +211,7 @@ const AboutPage = (props: any) => {
   // 获取分拆模板信息
   const getTempList = (productId: string) => {
 	getTempByProduct({productId: productId}).then(({data}) => {
-		if (data.sucai && data.sucai.length > 0) {
+		if (data && data.sucai && data.sucai.length > 0) {
 			let list:any = [...data.sucai];
 			let arr:any = [];
 			list.map((i:any, index: number) => {
@@ -263,6 +263,7 @@ const AboutPage = (props: any) => {
 			setDataLoad(true);
 		} else {
 			template(pagesList[0], 0);
+			setDataLoad(true);
 		}
 	})
   }
@@ -443,15 +444,10 @@ const AboutPage = (props: any) => {
   // 实时保存
   const saveByRealtime = () => {
 	const templateData = newCanvasRef.current.getTemplate();
-	console.log(templateData)
     let list: any = [...dataListRef.current];
 	let Index:any = selectIndexRef.current;
 	if (templateData.length > 0) {
 		list[Index]['nodes'] = templateData;
-	}
-	if (newCanvasRef.current.stage) {
-		var dataURL = newCanvasRef.current.stage.toDataURL({ pixelRatio: 0.1 });
-      	list[Index]['thumb'] = dataURL;
 	}
     let textValue: any = formRef.current?.getFieldValue('text');
     list[Index]['content'] = textValue;
@@ -470,7 +466,7 @@ const AboutPage = (props: any) => {
     };
 	newInsertVideo(params)
       .then(res => {
-			// console.log('自动保存中')
+			console.log(list)
 			setPagesList(list);
     	})
       .catch(err => {
@@ -538,7 +534,7 @@ const AboutPage = (props: any) => {
     return newObj;
   }
   const template = (data: any, index: number, time?: number) => {
-	console.log(data)
+	// console.log(data)
     setLoading(true);
 	setTemplate(deepClone(data));
 	setLoading(false);
@@ -665,7 +661,7 @@ const AboutPage = (props: any) => {
 							key={index}
 							onClick={() => selectPage(item, index)}
 						>
-							{selectIndex == index? (
+							{selectIndex == index && index != 0? (
 							<div className="mask">
 								<Tooltip placement="top" title="删除当前页">
 									<div style={{top: '0px'}} className='icon-logo' onClick={e => delAction(item, index, e)}>
@@ -688,7 +684,7 @@ const AboutPage = (props: any) => {
 											)
 										} else if (i.type == 'text-input') {
 											return (
-												<span key={s} className='text-span font' style={{top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8, fontSize: item.footerVisible? i.fontSize * 2.16 : i.fontSize * 1.8, color: i.fill}}>{i.text}</span>
+												<span key={s} className='text-span font' style={{display: 'block', top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8, fontSize: item.footerVisible? i.fontSize * 2.16 : i.fontSize * 1.8, color: i.fill}}>{i.text}</span>
 											)
 										} if (i.type === 'image') {
 											return (
@@ -705,7 +701,7 @@ const AboutPage = (props: any) => {
 				</div>
 				<div className='page_bot_btn'>
 					<span onClick={() =>setModalVisible(true)}>
-						<Tooltip placement="top" title="替换全部背景图">
+						<Tooltip placement="top" title="替换全部背景">
 							<Icon type="icon-kuaimenyoubeijing" style={{ fontSize: '24px', cursor: 'pointer'}}></Icon>
 						</Tooltip>
 					</span>
@@ -772,7 +768,7 @@ const AboutPage = (props: any) => {
 			destroyOnClose
 			forceRender={true}
 			width={350}
-			title="替换全部背景图"
+			title="替换全部背景"
 			open={modalVisible}
 			onCancel={() => setModalVisible(false)}
 			footer={null}

@@ -103,7 +103,7 @@ const Canvas: FC<ICanvasProps> = props => {
 			destroyOnClose
 			forceRender={true}
 			width={350}
-			title="替换背景"
+			title="替换本页背景"
 			open={modalVisible}
 			onCancel={() => setModalVisible(false)}
 			footer={null}

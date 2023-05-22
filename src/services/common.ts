@@ -86,12 +86,6 @@ export async function getModelsList(params: any) {
   });
 }
 
-// 获取声音列表
-export async function getVoiceList(params: any) {
-  return request.post('/out/getSpeakers', {
-    data: params,
-  });
-}
 
 // 简易版生成视频
 export async function makeSimpleVideo(params: any) {
@@ -128,5 +122,9 @@ export async function makeNewMovie(params: any) {
   return request.post('/web/api/video/make', {
     data: params,
   });
+}
+// 获取声音列表
+export async function getVoiceList(params: any) {
+  return request.get('/web/api/video/voice/list');
 }
 

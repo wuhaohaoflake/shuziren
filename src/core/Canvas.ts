@@ -365,6 +365,11 @@ class Canvas {
 			return {
 				...child.attrs,
 			};
+		} else if (child.attrs.type == 'text-input' && !child.attrs.height) {
+			child.attrs.height = 300;
+			return {
+				...child.attrs,
+			};
 		} else {
 			return {
 				...child.attrs,

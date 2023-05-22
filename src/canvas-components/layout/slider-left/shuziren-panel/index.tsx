@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button } from 'antd';
 import useModel from 'flooks';
 import canvasDataModel from '@/models1/canvasDataModel';
@@ -11,8 +11,11 @@ export interface IBGPanelProps {
 
 const BGPanel: FC<IBGPanelProps> = props => {
   const { canvasRef } = useModel(canvasModel);
-  const addShuziren = (item: string) => {
+  const [selectPerson, setSelectPerson] = useState('195803445');
+
+  const addShuziren = (item: any) => {
     canvasRef?.addShuzirenImage(item.cover);
+	setSelectPerson(item.id);
 	sessionStorage.setItem('sceneId', item.id);
 	sessionStorage.setItem('sceneUrl', item.cover);
   };
@@ -20,9 +23,9 @@ const BGPanel: FC<IBGPanelProps> = props => {
   return (
     <div className="shuziren-boxs">
       {props.personList.length > 0 &&
-        props.personList.map((item: any) => {
+        props.personList.map((item: any, index: number) => {
           return (
-            <div key={item.id} className={item.cover == 'https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png'? 'shuziren-list' : 'shuziren-list person-active'}>
+            <div key={index} className={item.id == selectPerson? 'shuziren-list person-active' : 'shuziren-list'}>
               <img onClick={() => addShuziren(item)} src={item.cover} />;
             </div>
           );
