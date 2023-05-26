@@ -19,5 +19,5 @@ export const getCenterXY = (
 };
 
 export const isBg = (modelItem: DatModelItem): boolean => {
-  return modelItem.type === 'color' || modelItem.type === 'bg-image';
+  return modelItem.type === 'color' || modelItem.type === 'bg-image' || !modelItem.type;
 };

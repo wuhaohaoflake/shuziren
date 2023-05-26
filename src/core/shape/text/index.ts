@@ -60,11 +60,14 @@ class Text {
       textarea.style.left = textPosition.x + 'px';
 
       textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
-      textarea.style.height = textNode.height() - textNode.padding() * 2 + 10 + 'px';
+      textarea.style.height = textNode.height() + 10 + 'px';
 
       textarea.style.fontSize = textNode.fontSize() + 'px';
-      textarea.style.border = '1px dashad #f2f2f2';
-      textarea.style.padding = '0';
+    //   textarea.style.border = '1px dashad #f2f2f2';
+    //   textarea.style.borderStyle = 'dashad';
+	  
+      textarea.style.paddingTop = '10px';
+      textarea.style.paddingBottom = '10px';
       textarea.style.margin = '0px';
       textarea.style.overflow = 'hidden';
       textarea.style.background = 'none';
@@ -75,28 +78,11 @@ class Text {
       textarea.style.transformOrigin = 'left top';
       textarea.style.textAlign = textNode.align();
       textarea.style.color = textNode.fill();
-      const rotation = textNode.rotation();
-      // var transform = '';
-      var transform = `scale(${canvas.canvasAttr.scale})`;
-      if (rotation) {
-        transform += ' rotateZ(' + rotation + 'deg)';
-      }
-
       var px = 0;
-      // also we need to slightly move textarea on firefox
-      // because it jumps a bit
       var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
       if (isFirefox) {
         px += 2 + Math.round(textNode.fontSize() / 20);
       }
-      transform += 'translateY(-' + px + 'px)';
-
-      textarea.style.transform = transform;
-
-      // reset height
-    //   textarea.style.height = 'auto';
-      // after browsers resized it we can set actual value
-    //   textarea.style.height = textarea.scrollHeight + 3 + 'px';
 
       textarea.focus();
       sessionStorage.setItem('textEdit', 'true');
@@ -146,7 +132,7 @@ class Text {
       textarea.addEventListener('keyup', function(e) {
         if (textNode && textNode.attrs) {
           canvas.updateShapeAttrsById(textNode.attrs.id, {
-            height: Number(textarea.style.height.slice(0, -2)),
+            height: Number(textarea.style.height.slice(0, -2)) + 30,
           });
           canvas.updateShapeAttrsById(textNode.attrs.id, {
             width: textNode.width(),
@@ -160,7 +146,7 @@ class Text {
         setTextareaWidth(textNode.width());
 		let strSize:any = textarea.style.fontSize.slice(0, -2);
 		let strWidth:any = textarea.style.width.slice(0, -2);
-        textarea.style.height = Math.ceil(((strSize * textarea.value.length)  / strWidth)) * strSize  + 10 + 'px'
+        textarea.style.height = Math.ceil(((strSize * textarea.value.length)  / strWidth)) * 1.3 * strSize + 'px'
       });
       textarea.addEventListener('blur', function(e) {
         textNode.text(textarea.value);

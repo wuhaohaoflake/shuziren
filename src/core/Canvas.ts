@@ -46,7 +46,7 @@ class Canvas {
       this,
     ).stage;
 
-    this.tr = new Transformer({}, this).transformer;
+    this.tr = new Transformer({rotateEnabled: false}, this).transformer;
 
     this.stage.on('click', event => {
       const modelItem = event.target.attrs as any;
@@ -64,7 +64,7 @@ class Canvas {
     });
 
     // 框选矩形
-    // addRectangle(this.layer);
+    addRectangle(this.layer);
 
     this.stage.add(this.layer);
   }
@@ -122,6 +122,7 @@ class Canvas {
       fill: '#ffffff',
       width: textWidth,
 	  wrap: 'char',
+	  fillPriority: '#ffffff',
       visible: true,
     };
     this.addNode(currTextDateItem, textWidth, textHeight);
@@ -361,12 +362,17 @@ class Canvas {
     return res.children.map((child: any) => {
       if (child.attrs != '{}') {
 		if (child.attrs.type == 'text-input' && !child.attrs.width) {
-			child.attrs.width = 500;
+			child.attrs.width = 600;
 			return {
 				...child.attrs,
 			};
 		} else if (child.attrs.type == 'text-input' && !child.attrs.height) {
 			child.attrs.height = 300;
+			return {
+				...child.attrs,
+			};
+		} else if (child.attrs.type == 'text-input' && !child.attrs.visible && child.attrs.text) {
+			child.attrs.visible = true;
 			return {
 				...child.attrs,
 			};

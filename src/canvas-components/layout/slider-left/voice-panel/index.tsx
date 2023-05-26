@@ -5,6 +5,8 @@ import { SoundOutlined } from '@ant-design/icons';
 
 import canvasDataModel from '@/models1/canvasDataModel';
 import canvasModel from '@/models1/canvasModel';
+import Icon from '@/components/PageIcon';
+
 
 import './index.less';
 
@@ -47,7 +49,7 @@ const VoicePanel: FC<voiceProps> = props => {
         props.soundsList.map((item: any, index: number) => {
           return (
             <div onClick={() => { selectVoiceAction(item) }} key={index} className={ selectVoice == item.id ? 'voice-list active' : 'voice-list'}>
-			  <SoundOutlined onClick={(e) => playSounds(e, item)} style={{fontSize: '18px', marginRight: '10px'}} />
+			  <Icon type="icon-shengyin_o" onClick={(e) => playSounds(e, item)} style={{ fontSize: 20, marginRight: '10px' }} />
 			  <div className='sounds-name'>{item.name}</div>
             </div>
           );

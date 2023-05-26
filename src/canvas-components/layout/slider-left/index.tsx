@@ -25,44 +25,40 @@ import ImagePanel from './image-panel';
 import BGPanel from './bg-panel';
 import ShuzirenPanel from './shuziren-panel';
 import VoicePanel from './voice-panel';
+import TempPanel from './temp-panel';
 import './slider.less';
 
 const itemData = [
   {
     id: 'text',
     name: '文字',
-	// icon: <Icon type="icon-wenbenkuang" style={{ fontSize: 20, color: '#fff' }} />,
-    // activeIcon: (
-	// 	<Icon type="icon-wenbenkuang" style={{ fontSize: 20, color: '#999' }} />
-    // ),
   },
   {
     id: 'image',
     name: '图片',
-    icon: <Icon type="icon-tupian" style={{ fontSize: 20, color: '#fff' }} />,
-    activeIcon: (
-		<Icon type="icon-tupian" style={{ fontSize: 20, color: '#999' }} />
-    ),
   },
   {
     id: 'shuziren',
     name: '数字人',
-    icon: <Icon type="icon-shuziren" style={{ fontSize: 26, color: '#fff' }} />,
-    activeIcon: <Icon type="icon-shuziren" style={{ fontSize: 26, color: '#999' }} />,
   },
   {
     id: 'voice',
     name: '声音',
-    icon: <Icon type="icon-yuyin" style={{ fontSize: 20, color: '#fff' }} />,
-    activeIcon: <Icon type="icon-yuyin" style={{ fontSize: 20, color: '#999' }} />,
   },
+  {
+    id: 'temp',
+    name: '模板',
+  }
 ];
 
 export interface IHeaderProps {
   formRef?: any;
   soundsList?: any;
   personList?: any;
+  picList?: any;
+  tempList?: any;
   editId?: string;
+  selectTempAction: (data:any) => void;
 }
 
 const Slider: FC<IHeaderProps> = props => {
@@ -108,7 +104,7 @@ const Slider: FC<IHeaderProps> = props => {
 				<TextPanel />
 			)}
 			{state.active === 'image' && (
-				<ImagePanel />
+				<ImagePanel picList={props.picList} />
 			)}
 			{state.active === 'shuziren' && (
 				<ShuzirenPanel personList={props.personList} />
@@ -117,6 +113,7 @@ const Slider: FC<IHeaderProps> = props => {
 				<VoicePanel soundsList={props.soundsList} />
 			)}
 			{state.active === 'background' && <BGPanel />}
+			{state.active === 'temp' && <TempPanel tempList={props.tempList} selectTempAction={(data:any) => {props.selectTempAction(data), setOpen(false)}} />}
 		</div>
       </div>
       <div className='toolbar'>

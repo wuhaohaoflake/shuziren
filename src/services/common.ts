@@ -79,13 +79,6 @@ export async function uploadImage(params: any) {
   });
 }
 
-// 获取数字人列表
-export async function getModelsList(params: any) {
-  return request.post('/out/getModels', {
-    data: params,
-  });
-}
-
 
 // 简易版生成视频
 export async function makeSimpleVideo(params: any) {
@@ -123,8 +116,27 @@ export async function makeNewMovie(params: any) {
     data: params,
   });
 }
+// 视频制作新版
+export async function saveTemp(params: any) {
+  return request.post('/web/api/video/moban/add', {
+    data: params,
+  });
+}
 // 获取声音列表
 export async function getVoiceList(params: any) {
   return request.get('/web/api/video/voice/list');
 }
+// 获取数字人列表
+export async function getModelsList(params: any) {
+  return request.get('/web/api/video/model/list');
+}
+// 获取图片资源列表
+export async function getPicList(params: any) {
+  return request.get('/web/api/video/temp/list');
+}
+// 获取模板列表
+export async function getTempListData(params: any) {
+  return request.get('/web/api/video/moban/list');
+}
+
 

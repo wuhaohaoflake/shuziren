@@ -21,6 +21,7 @@ class Satge {
     this.currNode = null;
     stage.on('click', event => {
       // 框选框是否显示
+	//   console.log(rectangleVisible())
       if (rectangleVisible()) {
         return;
       }
@@ -49,15 +50,15 @@ class Satge {
         return;
       }
       if (e.evt.button === 0) {
-        rectangleStart(stage, canvas);
+        // rectangleStart(stage, canvas);
       }
     });
     stage.on('mousemove', () => {
-      rectangleMove(stage, canvas);
+      // rectangleMove(stage, canvas);
     });
 
     stage.on('mouseup', () => {
-      rectangleEnd(stage, canvas);
+    //   rectangleEnd(stage, canvas);
     });
 
     this.contextMenu = createContextMenu(this, canvas);

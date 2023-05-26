@@ -1,0 +1,52 @@
+.temp-panel {
+  width: 100%;
+  padding: 0 15px;
+  text-align: left;
+  .temp_box {
+    width: 100%;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+    .list {
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      margin: 5px auto;
+      .temp_name {
+        text-align: center;
+        font-size: 14px;
+        color: #999;
+        margin: 5px 0;
+      }
+      .temp_list {
+        width: 250px;
+        height: 140px;
+        position: relative;
+        .thumb-box {
+          position: absolute;
+          height: 1080px;
+          width: 1920px;
+          left: 50%;
+          top: 50%;
+          transform: scale(0.1302) translate(-50%, -50%);
+          transform-origin: 0 0;
+          .shuziren-image {
+            position: absolute;
+          }
+          .text-span {
+            position: absolute;
+            display: block;
+            color: #fff;
+          }
+          .thumb-img {
+            position: absolute;
+          }
+        }
+      }
+    }
+    
+  }
+}

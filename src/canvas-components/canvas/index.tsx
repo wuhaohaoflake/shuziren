@@ -93,6 +93,14 @@ const Canvas: FC<ICanvasProps> = props => {
 					></Icon>
 				</div>
 			</Tooltip>
+			<Tooltip placement="right" title='保存本页为模板'>
+				<div style={{width: '40px', height: '40px', color: '#fff', cursor: 'pointer', textAlign: 'center', lineHeight: '40px',position: 'absolute', bottom: '5px', right: '5px', borderRadius: '5px', zIndex: '9', backgroundColor: 'rgba(0, 0, 0, 0.2)'}} className='replace-btn' onClick={changeBG}>
+					<Icon type="icon-baocun" style={{
+						fontSize: '24px',
+					}}
+					></Icon>
+				</div>
+			</Tooltip>
             <div id="container" style={{ display: 'flex', justifyContent: 'center' }}></div>
           </div>
         )}

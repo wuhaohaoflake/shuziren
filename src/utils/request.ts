@@ -71,7 +71,7 @@ request.interceptors.request.use((url, options) => {
     url: `${baseURL}${url}`,
     options: {
       ...options,
-      // headers: headerObj,
+      headers: headerObj,
     },
   };
 });

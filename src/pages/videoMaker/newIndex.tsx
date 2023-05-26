@@ -9,14 +9,15 @@ import { Canvas, Layout } from '../../canvas-components';
 import canvasDataModel from '@/models1/canvasDataModel';
 import BackReplace from '@/components/BackReplace';
 import Icon from '@/components/PageIcon';
+import {newCopy} from '@/utils/index'
 
 const { SliderLeft } = Layout;
 
-import { makeNewMovie, getMovie, getNewVideoDetail, getVoiceList, getModelsList, getTempByProduct, newInsertVideo } from '@/services/common';
+import { makeNewMovie, getMovie, getNewVideoDetail, getVoiceList, getModelsList, 
+getTempByProduct, newInsertVideo, getPicList, saveTemp, getTempListData } from '@/services/common';
 const formRef = React.createRef<FormInstance>();
 const { TextArea } = Input;
 import './newIndex.less';
-import { x64 } from 'crypto-js';
 const initData: any = {
 	id: 0,
 	thumb: '',
@@ -41,28 +42,27 @@ const initData: any = {
 			"width":253,
 			"height":483,
 			"type":"shuziren-image",
-			"url":"https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png",
+			"url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png",
 			"name":"node",
 			"draggable":true
 		},
 	],
 };
 const firstPage: any = {
-	id: 0,
-	thumb: '',
-	content: '',
-	sperkerId: '743',
-	sceneId: '195803445',
-	width: 885,
-	height: 500,
-	footerVisible: true,
-	nodes: [
+	"id": 0,
+	"content": "",
+	"sperkerId": "743",
+	"sceneId": "195803445",
+	"width": 885,
+	"height": 500,
+	"footerVisible": true,
+	"nodes": [
 		{
-			id: 'bg',
-			type: 'bg-image',
-			url: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png',
-			width: 885,
-			height: 500,
+			"id":"bg",
+			"type":"bg-image",
+			"url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png",
+			"width":885,
+			"height":500
 		},
 		{
 			"x":664,
@@ -71,66 +71,81 @@ const firstPage: any = {
 			"width":253,
 			"height":483,
 			"type":"shuziren-image",
-			"url":"https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png",
+			"url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png",
 			"name":"node",
 			"draggable":true
 		},
 		{
 			"id":"5d240064-91d8-4819-853e-cba715d5582e",
-			"fontSize":48,
+			"fontSize":42,
 			"fontFamily":"Microsoft YaHei",
-			backgroundColor: '#000',
 			"type":"text-input",
 			"text":"双击编辑标题",
 			"fill":"#ffffff",
-			width:500,
+			'width':630,
 			"x":112.5,
 			"y":112,
 			"name":"node",
 			"draggable":true,
-			"height": 48
+			"height": 48,
+			"lineHeight": 1
 		},
 		{
 			"id":"e56c92fa-465d-4c22-9094-f6b2aede22e8",
-			"fontSize":28,
+			"fontSize":24,
 			"fontFamily":"Microsoft JhengHei",
 			"type":"text-input",
 			"text":"桐乡市普法局",
 			"fill":"#ffffff",
-			width:400,
+			'width':500,
 			"x":222.5,
 			"y":250,
 			"name":"node",
 			"draggable":true,
-			"height": 28
+			"height": 28,
+			'lineHeight': 1
 		}
 	],
 };
 const commonNode: any = [
-	{
-		id: 'bg',
-		type: 'bg-image',
-		url: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png',
-		width: 885,
-		height: 500,
-	},
-	{
-		"x":664,
-		"y":30,
-		"id":"shuziren",
-		"width":253,
-		"height":483,
-		"type":"shuziren-image",
-		"url":"https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png",
-		"name":"node",
-		"draggable":true
-	},
+    {
+        "id":"bg",
+        "type":"bg-image",
+        "url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png",
+        "width":885,
+        "height":500
+    },
+    {
+        "x":664,
+        "y":30,
+        "id":"shuziren",
+        "width":253,
+        "height":483,
+        "type":"shuziren-image",
+        "url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png",
+        "name":"node",
+        "draggable":true
+    }
 ]
+const fontsFamily = [
+	{ name: '微软雅黑', value: 'Microsoft YaHei' },
+	{ name: '微软正黑', value: 'Microsoft JhengHei' },
+	{ name: '黑体', value: 'SimHei' },
+	{ name: '宋体', value: 'SimSun' },
+	{ name: '新宋体', value: 'NSimSun' },
+	{ name: '仿宋', value: 'FangSong' },
+	{ name: '楷体', value: 'KaiTi' },
+	{ name: '新细明体', value: 'PMingLiU' },
+	{ name: '幼圆', value: 'YouYuan' },
+	{ name: '华文彩云', value: 'STCaiyun' },
+];
 const AboutPage = (props: any) => {
   const { canvasRef } = useModel(canvasModel);
   const [movieVisible, setMovieVisible] = useState(false);
   const [soundsList, setSoundsList] = useState<any>([]);
-  const [personList, setPersonList] = useState<any>([{cover: 'https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png', id: '195803445'}, {cover: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/b0ee948429e9480f86cfd8657c7ad1fc.png', id: '195803446'}]);
+  const [personList, setPersonList] = useState<any>([]);
+  const [picList, setPicList] = useState<any>([]);
+  const [tempList, setTempList] = useState<any>([]);
   const [movieId, setMovieId] = useState<any>(null);
   const [movieUrl, setMovieUrl] = useState<any>(null);
   const [timer, setTimer] = useState<any>(null);
@@ -142,6 +157,8 @@ const AboutPage = (props: any) => {
   const [nameEdit, setNameEdit] = useState(false);
   const [footerVisible, setFooterVisible] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [tempVisible, setTempVisible] = useState(false);
+  const [tempName, setTempName] = useState<string>('');
   const [pagesList, setPagesList] = useState([firstPage]);
   const [selectIndex, setSelectIndex] = useState(0);
   const [addLoading, setAddLoading] = useState(false);
@@ -156,15 +173,16 @@ const AboutPage = (props: any) => {
   
 
   useEffect(() => {
-	// getShuzirenList();
-    
     // if (selectIndex > 0) {
     //   let dom: any = document.querySelector('#pageBox');
     //   setTimeout(() => {
     //     dom.scrollTo(0, selectIndex * 100);
     //   }, 200);
     // }
+	getShuzirenList();
 	getSoundsList();
+	getPictureList();
+	getTempListAction();
 	sessionStorage.setItem('textEdit', 'false');
 	sessionStorage.setItem('sperkerId', '743');
 	let query = props.location.query;
@@ -174,10 +192,10 @@ const AboutPage = (props: any) => {
 	if (query.productName) {
 		setVideoName(query.productName);
 	}
-	if (query.type == 'edit') {
-		getDetailData({type: 'draf', productId: editId});
-	} else {
-		getDetailData({type: 'pros', productId: editId});
+	if (query.productId) {
+		setSpinText('数据获取中');
+    	setMovieLoading(true);
+		getDetailData({productId: query.productId});
 	}
     return () => {
       sessionStorage.clear();
@@ -188,7 +206,7 @@ const AboutPage = (props: any) => {
 
   useEffect(() => {
 	if (canvasRef && dataLoad) {
-		setTime();
+		// setTime();
 	}
   }, [canvasRef, dataLoad]);
 
@@ -207,7 +225,33 @@ const AboutPage = (props: any) => {
   useEffect(() => {
 	footerVisibleRef.current = footerVisible;
   }, [footerVisible])
-  
+  //保存为模板
+const saveTempAction = () => {
+	setTempName('');
+	setTempVisible(true);
+}
+//   储存模板名称
+const changeTempName = (e:any) => {
+	setTempName(e.target.value);
+}
+// 保存模板数据
+const saveTempData = () => {
+	if (!tempName) {
+		message.error('模板名称不能为空');
+		return false;
+	}
+	let templateData:any = pagesList[selectIndex];
+	let params = {
+		name: tempName,
+		content: templateData
+	}
+	saveTemp(params).then((res) => {
+		message.success('模板保存成功');
+		setTempVisible(false);
+		getTempListAction();
+	})
+}
+
   // 获取分拆模板信息
   const getTempList = (productId: string) => {
 	getTempByProduct({productId: productId}).then(({data}) => {
@@ -215,47 +259,92 @@ const AboutPage = (props: any) => {
 			let list:any = [...data.sucai];
 			let arr:any = [];
 			list.map((i:any, index: number) => {
-				arr.push({
-					id: index,
-					thumb: '',
-					content: i.xcy,
-					sperkerId: '743',
-					sceneId: '195803445',
-					width: 885,
-					height: 500,
-					footerVisible: true,
-					nodes: [...commonNode, ...[
-						{
-							"id":`text-${index}-t`,
-							"fontSize":28,
-							"fontFamily":"Microsoft YaHei",
-							"type":"text-input",
-							"text": i.title,
-							"fill":"#ffffff",
-							width: 500,
-							"x": 87.5,
-							"y": 67,
-							"name":"node",
-							"draggable":true,
-							'height': 30
-						},
-						{
-							"id":`text-${index}-c`,
-							"fontSize":20,
-							"fontFamily":"Microsoft JhengHei",
-							"type":"text-input",
-							"text": i.ftyw,
-							"fill":"#ffffff",
-							width: 500,
-							"x": 87.5,
-							"y": 120.5,
-							"name":"node",
-							"draggable":true,
-							'height': 243,
-							'lineHeight': 1.5
-						},
-					]]
-				});
+				if (index == 0) {
+					arr.push({
+						id: index,
+						content: i.xcy,
+						sperkerId: '743',
+						sceneId: '195803445',
+						width: 885,
+						height: 500,
+						footerVisible: true,
+						nodes: [...commonNode, ...[
+							{
+								"id":`text-${index}-t`,
+								"fontSize": 42,
+								"fontFamily":"Microsoft YaHei",
+								"type":"text-input",
+								"text": i.title,
+								"fill":"#ffffff",
+								width: 630,
+								"x":112.5,
+								"y":112,
+								"name":"node",
+								"draggable":true,
+								'height': 48,
+								'lineHeight': 1
+							},
+							{
+								"id":`text-${index}-c`,
+								"fontSize":24,
+								"fontFamily":"Microsoft JhengHei",
+								"type":"text-input",
+								"text": i.ftyw,
+								"fill":"#ffffff",
+								width: 550,
+								"x":222.5,
+								"y":250,
+								"name":"node",
+								"draggable":true,
+								'height': 28,
+								'lineHeight': 1
+							},
+						]]
+					});
+				} else {
+					arr.push({
+						id: index,
+						thumb: '',
+						content: i.xcy,
+						sperkerId: '743',
+						sceneId: '195803445',
+						width: 885,
+						height: 500,
+						footerVisible: true,
+						nodes: [...commonNode, ...[
+							{
+								"id":`text-${index}-t`,
+								"fontSize":24,
+								"fontFamily":"Microsoft YaHei",
+								"type":"text-input",
+								"text": i.title,
+								"fill":"#ffffff",
+								width: 630,
+								"x": 87.5,
+								"y": 67,
+								"name":"node",
+								"draggable":true,
+								'height': 30,
+								'lineHeight': 1
+							},
+							{
+								"id":`text-${index}-c`,
+								"fontSize": 18,
+								"fontFamily":"Microsoft JhengHei",
+								"type":"text-input",
+								"text": i.ftyw,
+								"fill":"#ffffff",
+								width: 550,
+								"x": 87.5,
+								"y": 120.5,
+								"name":"node",
+								"draggable":true,
+								'height': 243,
+								'lineHeight': 1.5
+							},
+						]]
+					});
+				}
 			})
 			setPagesList(arr);
 			setSelectIndex(0);
@@ -265,7 +354,16 @@ const AboutPage = (props: any) => {
 			template(pagesList[0], 0);
 			setDataLoad(true);
 		}
+	}).catch(err => {
+		message.error('服务器开小差了');
+		template(pagesList[0], 0);
 	})
+  }
+  const selectTempAction = (data:any) => {
+		setSpinText('模板加载中');
+    	setMovieLoading(true);
+		console.log(data)
+		template(data, selectIndex);
   }
   //   获取编辑详情
   const getDetailData = (params: any) => {
@@ -279,7 +377,11 @@ const AboutPage = (props: any) => {
 		} else {
 			getTempList(editId);
 		}
-    });
+    }).catch(err => {
+		message.error('服务器开小差了');
+		template(pagesList[0], 0);
+		// setDataLoad(true);
+	})
 };
   const replaceAllThumb = (list:any) => {
 	// 缩略图尺寸  159 * 90
@@ -295,6 +397,13 @@ const AboutPage = (props: any) => {
 	// }
 
   }
+  
+   //   获取图片资源列表
+   const getPictureList = () => {
+    getPicList({}).then(({ data }) => {
+      setPicList(data);
+    });
+  };
   //   获取数字人列表
   const getShuzirenList = () => {
     getModelsList({}).then(({ data }) => {
@@ -307,13 +416,19 @@ const AboutPage = (props: any) => {
       setSoundsList(data);
     });
   };
-
+  //获取模板列表数据
+  const getTempListAction = () => {
+	getTempListData({}).then(({data}) => {
+		console.log(data);
+		setTempList(data);
+	})
+  }
   // 开启定时器
   const setTime = () => {
 	setDataLoad(false);
     const meTime = setInterval(() => {
 		saveByRealtime();
-    }, 2000);
+    }, 5000);
     setTimer(meTime);
   };
 
@@ -335,24 +450,22 @@ const AboutPage = (props: any) => {
   }
   // 草稿保存
   const saveTemplate = () => {
-	const templateData = newCanvasRef.current.getTemplate();
-    let list: any = [...pagesList];
+    let list: any = newCopy(pagesList);
 	let obj = {
 		list: list,
 		sceneId: sessionStorage.getItem('sceneId')? sessionStorage.getItem('sceneId') : '195803445',
-		sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png',
+		sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png',
 		sperkerId: sessionStorage.getItem('sperkerId')? sessionStorage.getItem('sperkerId') : '743'
 	};
 	let params = {
 		productId: editId,
 		value: JSON.stringify(obj),
-		type: 'draf'
 	};
     setSpinText('草稿保存中...');
     setMovieLoading(true);
     newInsertVideo(params)
       .then(res => {
-        message.success('草稿保存成功,窗口即将关闭');
+        message.success('草稿保存成功');
         setTimeout(() => {
           window.close();
           setMovieLoading(false);
@@ -362,9 +475,13 @@ const AboutPage = (props: any) => {
         setMovieLoading(false);
       });
   };
+  const filterFonts = (str: string) => {
+	let list = [...fontsFamily];
+	return list.filter(item => item.value == str)[0].name;
+  }
   // 生成视频
   const makeMovieAction = () => {
-    let list: any = [...pagesList];
+    let list: any = newCopy(pagesList);
     let pages: any = [];
     if (!list.every((item: any) => item.content)) {
       message.error('有页面语音讲解内容为空，请完善');
@@ -396,17 +513,17 @@ const AboutPage = (props: any) => {
           pages[index]['digital_human']['x'] = s.x;
           pages[index]['digital_human']['y'] = s.y;
         }
-        if (s.type == 'text-input') {
-          if (!s.width) s.width = 360;
+        if (s.type == 'text-input' && s.text) {
+          if (!s.width) s.width = 600;
           if (!s.height) s.height = 30;
           pages[index]['text_list'].push({
             text: s.text,
             alignment: s.align ? s.align : 'left',
             fill_color: '',
-            line_spacing: s.lineHeight,
+            line_spacing: s.lineHeight? s.lineHeight : 1,
             font_size: s.fontSize,
             font_bold: s.fontWeight && s.fontWeight == 'bold' ? 1 : 0,
-            font_name: s.fontFamily ? s.fontFamily : '宋体',
+            font_name: s.fontFamily? filterFonts(s.fontFamily) : '宋体',
             font_italic: s.fontStyle && s.fontStyle == 'oblique' ? 1 : 0,
             font_color: s.fill,
             x: s.x,
@@ -431,14 +548,17 @@ const AboutPage = (props: any) => {
 	  productId: editId,
 	  productName: videoName
     };
+	setSpinText('视频生成中');
+    setMovieLoading(true);
     makeNewMovie(params).then(({ data }) => {
 		setMovieId(data.movie_id);
-		message.success('视频制作中。窗口即将关闭');
+		message.success('视频开始制作,窗口即将关闭');
 		clearInterval(timer);
 		setDataLoad(false);
 		setTimeout(() => {
 			window.close();
-		}, 2000);
+			setMovieLoading(false);
+		}, 1000);
     });
   };
   // 实时保存
@@ -456,18 +576,17 @@ const AboutPage = (props: any) => {
       list: list,
 	  selectIndex: Index,
       sceneId: sessionStorage.getItem('sceneId')? sessionStorage.getItem('sceneId') : '195803445',
-      sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://digital-public.obs.cn-east-3.myhuaweicloud.com/model/2023/05/04/6456a3f5669d008e340d593d9b696ca3.png',
+      sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png',
 	  sperkerId: sessionStorage.getItem('sperkerId')? sessionStorage.getItem('sperkerId') : '743'
     };
     let params = {
 		productId: editId,
       	value: JSON.stringify(obj),
-		type: 'pros'
     };
 	newInsertVideo(params)
       .then(res => {
-			console.log(list)
 			setPagesList(list);
+			console.log(list)
     	})
       .catch(err => {
         setMovieLoading(false);
@@ -482,15 +601,14 @@ const AboutPage = (props: any) => {
 			if (i.id != 'bg') {
 				i.x = i.x / 1.2;
 				i.y = i.y / 1.2;
-				if (i.type != 'text-input') {
-					i.width = i.width / 1.2;
-					i.height = i.height / 1.2;
+				i.width = i.width / 1.2;
+				i.height = i.height / 1.2;
+				if (i.type == 'text-input') {
+					i.fontSize = i.fontSize / 1.2;
 				}
 			} else {
-				if (i.type != 'text-input') {
-					i.width = i.width / 1.2;
-					i.height = i.height / 1.2;
-				}
+				i.width = i.width / 1.2;
+				i.height = i.height / 1.2;
 			}
 		})
 	} else {
@@ -498,16 +616,15 @@ const AboutPage = (props: any) => {
 			if (i.id != 'bg') {
 				i.x = i.x * 1.2;
 				i.y = i.y * 1.2;
-				if (i.type != 'text-input') {
-					i.width = i.width * 1.2;
-					i.height = i.height * 1.2;
+				i.width = i.width * 1.2;
+				i.height = i.height * 1.2;
+				if (i.type == 'text-input') {
+					i.fontSize = i.fontSize * 1.2;
 				}
 				
 			} else {
-				if (i.type != 'text-input') {
-					i.width = i.width * 1.2;
-					i.height = i.height * 1.2;
-				}
+				i.width = i.width * 1.2;
+				i.height = i.height * 1.2;
 			}
 		})
 	}
@@ -540,6 +657,8 @@ const AboutPage = (props: any) => {
 	setLoading(false);
 	setSelectIndex(index);
 	setFooterVisible(data.footerVisible? data.footerVisible : true);
+	setMovieLoading(false);
+	setSpinText('');
 	formRef.current?.setFieldsValue({
 		text: data.content ? data.content : '',
 	});
@@ -547,7 +666,7 @@ const AboutPage = (props: any) => {
   };
 
   const add = () => {
-    let list = [...pagesList];
+    let list = newCopy(pagesList);
     if (list.length > 0) {
       if (!list[selectIndex]['content']) {
         message.error('请先完善当前页面的解说内容!');
@@ -568,7 +687,7 @@ const AboutPage = (props: any) => {
 	}, 200);
   };
   const delAction = (item: any, index: number, e: any) => {
-	let list:any = [...pagesList];
+	let list:any = newCopy(pagesList);
 	if (list.length < 2) {
 		message.error('页面不可为空');
 		return false;
@@ -578,7 +697,7 @@ const AboutPage = (props: any) => {
 		  title: '提示',
 		  content: '确认要删除吗？',
 		  onOk: () => {
-			let list = [...pagesList];
+			let list = newCopy(pagesList);
 			list.splice(index, 1);
 			setPagesList(list);
 			if (list.length > 0) {
@@ -604,7 +723,7 @@ const AboutPage = (props: any) => {
       title: '提示',
       content: '确认要复制当前页面吗？',
       onOk: () => {
-        let list = [...pagesList];
+        let list = newCopy(pagesList);
         list.push(item);
         let dom: any = document.querySelector('#pageBox');
         setTimeout(() => {
@@ -629,6 +748,11 @@ const AboutPage = (props: any) => {
 			<span className='edit-btn' onClick={() =>setNameEdit(true)}><EditOutlined /></span>
 		  </div>
           <div className='btn-right'>
+		  <Button
+              onClick={saveTempAction}
+            >
+              保存为模板
+            </Button>
             <Button
               disabled={pagesList.length < 1}
               onClick={saveTemplate}
@@ -652,7 +776,7 @@ const AboutPage = (props: any) => {
 					<Button icon={<PlusCircleOutlined />} onClick={add} loading={addLoading} style={{ width: '80px', borderRadius: '5px', marginBottom: '15px' }} type="primary">新增</Button>
 				</div>
 				<div id="pageBox">
-					{pagesList && [...pagesList].map((item: any, index: number) => {
+					{pagesList && newCopy(pagesList).map((item: any, index: number) => {
 						return (
 						<div
 							className={
@@ -675,7 +799,7 @@ const AboutPage = (props: any) => {
 								</Tooltip>
 							</div>
 							) : null}
-							<div className='thumb-box' style={{backgroundImage: `url(${item.nodes[0].url}) `, backgroundSize: '100% 100%'}}>
+							<div className='thumb-box' style={{backgroundImage: `url(${item.nodes.filter((k:any) => k.id == 'bg')? item.nodes.filter((k:any) => k.id == 'bg')[0].url : 'https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png'}) `, backgroundSize: '100% 100%'}}>
 								{
 									item.nodes && item.nodes.map((i:any, s:number) => {
 										if (i.id === 'shuziren') {
@@ -684,7 +808,7 @@ const AboutPage = (props: any) => {
 											)
 										} else if (i.type == 'text-input') {
 											return (
-												<span key={s} className='text-span font' style={{display: 'block', top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8, fontSize: item.footerVisible? i.fontSize * 2.16 : i.fontSize * 1.8, color: i.fill}}>{i.text}</span>
+												<span key={s} className='text-span font' style={{display: 'block', top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8, fontSize: item.footerVisible? i.fontSize * 2.16 : i.fontSize * 1.8, color: i.fill, lineHeight: i.lineHeight}}>{i.text}</span>
 											)
 										} if (i.type === 'image') {
 											return (
@@ -725,6 +849,7 @@ const AboutPage = (props: any) => {
 				<Form ref={formRef} labelCol={{ span: 3 }} colon={false} onFinish={data => {}}>
 					<Form.Item label="" name="text" rules={[{ required: true }]}>
 						<TextArea
+						onChange={saveByRealtime}
 						placeholder="请输入语音讲解内容"
 						bordered={false}
 						showCount
@@ -743,6 +868,9 @@ const AboutPage = (props: any) => {
 					editId={props.location.query.id ? props.location.query.id : ''}
 					soundsList={soundsList}
 					personList={personList}
+					picList={picList}
+					tempList={tempList}
+					selectTempAction={selectTempAction}
 				></SliderLeft>
 		  </div>
         </div>
@@ -774,6 +902,22 @@ const AboutPage = (props: any) => {
 			footer={null}
 		>
 			<BackReplace pagesList={pagesList} type="all" onClose={() =>{setModalVisible(false)}}   />
+      	</Modal>
+		<Modal
+			bodyStyle={{ padding: 0 }}
+			style={{ top: '150px' }}
+			className="elementModal"
+			destroyOnClose
+			forceRender={true}
+			okText='确定'
+			cancelText='取消'
+			width={350}
+			title="保存模板"
+			onOk={saveTempData}
+			open={tempVisible}
+			onCancel={() => setTempVisible(false)}
+		>
+			<Input defaultValue={tempName} placeholder="请填写模板名称" onChange={changeTempName} />
       	</Modal>
       </div>
     </Spin>
