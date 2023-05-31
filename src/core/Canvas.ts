@@ -57,6 +57,7 @@ class Canvas {
 
     // 辅助线
     this.layer.on('dragmove', e => {
+	//   console.log(e)
       detectionToLine(this.layer, e.target as Konva.Shape);
     });
     this.layer.on('dragend', e => {
@@ -111,16 +112,18 @@ class Canvas {
     (node.name = 'node'), (node.draggable = true), this.add(node);
   }
   addText(): void {
-    const textWidth = 500;
-    const textHeight = 36;
+    const textWidth = 300;
+    const textHeight = 30;
     const currTextDateItem: DatModelItem = {
       id: uuid(),
-      fontSize: 28,
+      fontSize: 22,
       fontFamily: 'Microsoft YaHei',
       type: 'text-input',
+	  fontStyle: 'normal',
       text: '双击编辑文字',
       fill: '#ffffff',
       width: textWidth,
+	  height: textHeight,
 	  wrap: 'char',
 	  fillPriority: '#ffffff',
       visible: true,
@@ -158,10 +161,10 @@ class Canvas {
   }
   addShuzirenImage(url: string): void {
     const id = 'shuziren';
-    const width = 253;
-    const height = 483;
+    const width = 220;
+    const height = 430;
     const node: DatModelItem = {
-      x: 664,
+      x: 590,
       y: 30,
       id,
       width,
@@ -256,6 +259,8 @@ class Canvas {
           this.bgNode = node;
           setTimeout(() => {
             node.moveToBottom(); // TODO: 放到最底层
+			this.layer.add(node);
+			sessionStorage.setItem('canvasChange', new Date().valueOf().toString());
           }, 0);
         });
 
@@ -361,17 +366,29 @@ class Canvas {
     const res = this.layer.toObject();
     return res.children.map((child: any) => {
       if (child.attrs != '{}') {
+		if (child.attrs.type && child.attrs.id != 'bg' &&  !child.attrs.y ) {
+			console.log('没有y坐标');
+			console.log(child.attrs)
+		}
 		if (child.attrs.type == 'text-input' && !child.attrs.width) {
+			console.log('文本框没有宽度');
 			child.attrs.width = 600;
 			return {
 				...child.attrs,
 			};
 		} else if (child.attrs.type == 'text-input' && !child.attrs.height) {
-			child.attrs.height = 300;
+			console.log('文本框没有高度');
+			if (child.attrs.width && child.attrs.text) {
+				child.attrs.height = (child.attrs.text.length * child.attrs.fontSize / child.attrs.width) * child.attrs.fontSize * child.attrs.lineHeight;
+			} else {
+				child.attrs.height = 100;
+			}
 			return {
 				...child.attrs,
 			};
-		} else if (child.attrs.type == 'text-input' && !child.attrs.visible && child.attrs.text) {
+		} else if (child.attrs.type == 'text-input' && child.attrs.visible === false && child.attrs.text) {
+			console.log('文本框消失');
+			console.log(child.attrs)
 			child.attrs.visible = true;
 			return {
 				...child.attrs,

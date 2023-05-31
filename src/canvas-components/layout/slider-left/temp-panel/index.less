@@ -5,10 +5,10 @@
   .temp_box {
     width: 100%;
     height: calc(100vh - 120px);
+    overflow: hidden;
     overflow-y: auto;
     display: flex;
     justify-content: flex-start;
-    flex-wrap: wrap;
     flex-direction: column;
     .list {
       margin-bottom: 10px;
@@ -24,6 +24,7 @@
       .temp_list {
         width: 250px;
         height: 140px;
+
         position: relative;
         .thumb-box {
           position: absolute;
@@ -33,6 +34,7 @@
           top: 50%;
           transform: scale(0.1302) translate(-50%, -50%);
           transform-origin: 0 0;
+          background-size: 100% 100%;
           .shuziren-image {
             position: absolute;
           }

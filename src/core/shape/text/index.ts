@@ -19,10 +19,8 @@ class Text {
   constructor(config: TextConfig, canvas: Canvas) {
     this.text = new Konva.Text(config);
     canvas.layer.add(this.text);
-
     const textNode = this.text;
     const stage = canvas.stage;
-
     textNode.on('dblclick dbltap', () => {
       // hide text node and transformer:
       textNode.hide();
@@ -60,14 +58,11 @@ class Text {
       textarea.style.left = textPosition.x + 'px';
 
       textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
-      textarea.style.height = textNode.height() + 10 + 'px';
-
+      textarea.style.height = textNode.height() + 'px';
       textarea.style.fontSize = textNode.fontSize() + 'px';
-    //   textarea.style.border = '1px dashad #f2f2f2';
-    //   textarea.style.borderStyle = 'dashad';
 	  
-      textarea.style.paddingTop = '10px';
-      textarea.style.paddingBottom = '10px';
+      textarea.style.paddingTop = '0';
+      textarea.style.paddingBottom = '0px';
       textarea.style.margin = '0px';
       textarea.style.overflow = 'hidden';
       textarea.style.background = 'none';
@@ -131,9 +126,9 @@ class Text {
       });
       textarea.addEventListener('keyup', function(e) {
         if (textNode && textNode.attrs) {
-          canvas.updateShapeAttrsById(textNode.attrs.id, {
-            height: Number(textarea.style.height.slice(0, -2)) + 30,
-          });
+        //   canvas.updateShapeAttrsById(textNode.attrs.id, {
+        //     height: Number(textarea.style.height.slice(0, -2)) + 30,
+        //   });
           canvas.updateShapeAttrsById(textNode.attrs.id, {
             width: textNode.width(),
           });
@@ -144,11 +139,14 @@ class Text {
       textarea.addEventListener('keydown', function(e) {
         const scale = textNode.getAbsoluteScale().x;
         setTextareaWidth(textNode.width());
-		let strSize:any = textarea.style.fontSize.slice(0, -2);
-		let strWidth:any = textarea.style.width.slice(0, -2);
-        textarea.style.height = Math.ceil(((strSize * textarea.value.length)  / strWidth)) * 1.3 * strSize + 'px'
+		textarea.style.height = '10px';
+        textarea.style.height = e.target.scrollHeight + 'px';
       });
       textarea.addEventListener('blur', function(e) {
+		console.log(textarea.style.height)
+		canvas.updateShapeAttrsById(textNode.attrs.id, {
+            height: Number(textarea.style.height.slice(0, -2)),
+        });
         textNode.text(textarea.value);
         textNode.show();
 		sessionStorage.setItem('textEdit', 'false');
@@ -184,6 +182,20 @@ class Text {
         });
       }
     });
+	textNode.setAttrs({
+		dragBoundFunc: function(pos:any) {
+			let canvasWidth = canvas.canvasAttr.width;
+			let canvasHeight = canvas.canvasAttr.height;
+			let imageWidth = textNode.attrs.width;
+			let imageHeight = textNode.attrs.height;
+			let scaleX = textNode.attrs.scaleX;
+			let scaleY = textNode.attrs.scaleY;
+			return {
+				y: pos.y < 1? 5 : pos.y > (Number(canvasHeight) - Number(imageHeight) * scaleY)? (Number(canvasHeight) - Number(imageHeight) * scaleY) : pos.y,
+				x: pos.x < 1? 5 : pos.x > (Number(canvasWidth) - Number(imageWidth) * scaleX)? (Number(canvasWidth) - Number(imageWidth) * scaleX) : pos.x
+			};
+		}
+	})
   }
 }
 

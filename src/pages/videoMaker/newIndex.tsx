@@ -9,38 +9,36 @@ import { Canvas, Layout } from '../../canvas-components';
 import canvasDataModel from '@/models1/canvasDataModel';
 import BackReplace from '@/components/BackReplace';
 import Icon from '@/components/PageIcon';
-import {newCopy} from '@/utils/index'
+import { newCopy } from '@/utils/index'
 
 const { SliderLeft } = Layout;
 
 import { makeNewMovie, getMovie, getNewVideoDetail, getVoiceList, getModelsList, 
 getTempByProduct, newInsertVideo, getPicList, saveTemp, getTempListData } from '@/services/common';
-const formRef = React.createRef<FormInstance>();
 const { TextArea } = Input;
 import './newIndex.less';
 const initData: any = {
 	id: 0,
-	thumb: '',
 	content: '',
 	sperkerId: '743',
 	sceneId: '195803445',
-	width: 885,
-	height: 500,
+	width: 814,
+	height: 460,
 	footerVisible: true,
 	nodes: [
 		{
 			id: 'bg',
 			type: 'bg-image',
 			url: 'https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png',
-			width: 885,
-			height: 500,
+			width: 814,
+			height: 460,
 		},
 		{
-			"x":664,
-			"y":30,
+			"x": 590,
+			"y": 28,
 			"id":"shuziren",
-			"width":253,
-			"height":483,
+			"width":220,
+			"height":430,
 			"type":"shuziren-image",
 			"url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png",
 			"name":"node",
@@ -53,47 +51,50 @@ const firstPage: any = {
 	"content": "",
 	"sperkerId": "743",
 	"sceneId": "195803445",
-	"width": 885,
-	"height": 500,
+	"width": 814,
+	"height": 460,
 	"footerVisible": true,
 	"nodes": [
 		{
 			"id":"bg",
 			"type":"bg-image",
 			"url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png",
-			"width":885,
-			"height":500
+			"width":814,
+			"height":460
 		},
 		{
-			"x":664,
+			"x": 590,
 			"y":30,
 			"id":"shuziren",
-			"width":253,
-			"height":483,
+			"width":220,
+			"height":430,
 			"type":"shuziren-image",
-			"url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png",
+			"url":"https://gateway.leamt.com/bus/oss/tx/png/2023-05-31/6859d7e44db84850951e292f753ae00e.png",
 			"name":"node",
 			"draggable":true
 		},
 		{
 			"id":"5d240064-91d8-4819-853e-cba715d5582e",
-			"fontSize":42,
+			"fontSize": 38,
 			"fontFamily":"Microsoft YaHei",
+			"fontStyle": 'normal',
 			"type":"text-input",
 			"text":"双击编辑标题",
 			"fill":"#ffffff",
-			'width':630,
+			'width':600,
 			"x":112.5,
 			"y":112,
 			"name":"node",
 			"draggable":true,
 			"height": 48,
-			"lineHeight": 1
+			"lineHeight": 1,
+			visible: true,
 		},
 		{
 			"id":"e56c92fa-465d-4c22-9094-f6b2aede22e8",
-			"fontSize":24,
+			"fontSize":22,
 			"fontFamily":"Microsoft JhengHei",
+			"fontStyle": 'normal',
 			"type":"text-input",
 			"text":"桐乡市普法局",
 			"fill":"#ffffff",
@@ -103,7 +104,8 @@ const firstPage: any = {
 			"name":"node",
 			"draggable":true,
 			"height": 28,
-			'lineHeight': 1
+			'lineHeight': 1,
+			visible: true,
 		}
 	],
 };
@@ -112,17 +114,17 @@ const commonNode: any = [
         "id":"bg",
         "type":"bg-image",
         "url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png",
-        "width":885,
-        "height":500
+        "width":814,
+        "height":460
     },
     {
-        "x":664,
+        "x":590,
         "y":30,
         "id":"shuziren",
-        "width":253,
-        "height":483,
+        "width":220,
+        "height":430,
         "type":"shuziren-image",
-        "url":"https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png",
+        "url":"https://gateway.leamt.com/bus/oss/tx/png/2023-05-31/6859d7e44db84850951e292f753ae00e.png",
         "name":"node",
         "draggable":true
     }
@@ -139,7 +141,7 @@ const fontsFamily = [
 	{ name: '幼圆', value: 'YouYuan' },
 	{ name: '华文彩云', value: 'STCaiyun' },
 ];
-const AboutPage = (props: any) => {
+const NewPage = (props: any) => {
   const { canvasRef } = useModel(canvasModel);
   const [movieVisible, setMovieVisible] = useState(false);
   const [soundsList, setSoundsList] = useState<any>([]);
@@ -157,21 +159,23 @@ const AboutPage = (props: any) => {
   const [nameEdit, setNameEdit] = useState(false);
   const [footerVisible, setFooterVisible] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [replaceType, setReplaceType] = useState('all');
   const [tempVisible, setTempVisible] = useState(false);
   const [tempName, setTempName] = useState<string>('');
-  const [pagesList, setPagesList] = useState([firstPage]);
+  const [soundsValue, setSoundsValue] = useState<string>('');
+  const [pagesList, setPagesList] = useState([{...firstPage}]);
   const [selectIndex, setSelectIndex] = useState(0);
   const [addLoading, setAddLoading] = useState(false);
   const [dataLoad, setDataLoad] = useState(false);
   const { stageRef, setLoading } = useModel(canvasModel);
   const { nodes, setTemplate } = useModel(canvasDataModel);
-  
+
   const dataListRef = useRef(pagesList);
   const selectIndexRef = useRef(selectIndex);
   const newCanvasRef = useRef(canvasRef);
   const footerVisibleRef = useRef(footerVisible);
+  const soundsValueRef = useRef(soundsValue);
   
-
   useEffect(() => {
     // if (selectIndex > 0) {
     //   let dom: any = document.querySelector('#pageBox');
@@ -196,6 +200,7 @@ const AboutPage = (props: any) => {
 		setSpinText('数据获取中');
     	setMovieLoading(true);
 		getDetailData({productId: query.productId});
+		// getTempList(query.productId);
 	}
     return () => {
       sessionStorage.clear();
@@ -203,13 +208,11 @@ const AboutPage = (props: any) => {
 	  setDataLoad(false);
     };
   }, []);
-
   useEffect(() => {
 	if (canvasRef && dataLoad) {
-		// setTime();
+		setTime();
 	}
   }, [canvasRef, dataLoad]);
-
   useEffect(() => {
 	dataListRef.current = pagesList;
   }, [pagesList])
@@ -221,10 +224,20 @@ const AboutPage = (props: any) => {
   useEffect(() => {
 	newCanvasRef.current = canvasRef;
   }, [canvasRef])
-
+  
   useEffect(() => {
 	footerVisibleRef.current = footerVisible;
   }, [footerVisible])
+
+  useEffect(() => {
+	soundsValueRef.current = soundsValue;
+  }, [soundsValue])
+  const changeSession = () => {
+	// sessionStorage.setItem('canvasChange', new Date().valueOf().toString());
+	const templateData = newCanvasRef.current.getTemplate();
+	console.log(templateData)
+
+  }
   //保存为模板
 const saveTempAction = () => {
 	setTempName('');
@@ -265,39 +278,43 @@ const saveTempData = () => {
 						content: i.xcy,
 						sperkerId: '743',
 						sceneId: '195803445',
-						width: 885,
-						height: 500,
+						width: 814,
+						height: 460,
 						footerVisible: true,
 						nodes: [...commonNode, ...[
 							{
 								"id":`text-${index}-t`,
-								"fontSize": 42,
+								"fontSize": 38,
 								"fontFamily":"Microsoft YaHei",
+								"fontStyle": 'normal',
 								"type":"text-input",
 								"text": i.title,
 								"fill":"#ffffff",
-								width: 630,
-								"x":112.5,
+								"width": i.title? i.title.length * 38 : 10,
+								"x":110,
 								"y":112,
 								"name":"node",
 								"draggable":true,
-								'height': 48,
-								'lineHeight': 1
+								'height': 38,
+								'lineHeight': 1,
+								"visible": true,
 							},
 							{
 								"id":`text-${index}-c`,
-								"fontSize":24,
+								"fontSize":20,
 								"fontFamily":"Microsoft JhengHei",
 								"type":"text-input",
+								"fontStyle": 'normal',
 								"text": i.ftyw,
 								"fill":"#ffffff",
-								width: 550,
+								"width": 500,
 								"x":222.5,
 								"y":250,
 								"name":"node",
 								"draggable":true,
-								'height': 28,
-								'lineHeight': 1
+								'height': i.ftyw? (i.ftyw.length * 20 / 500) * 20 : 20,
+								'lineHeight': 1,
+								"visible": true
 							},
 						]]
 					});
@@ -308,39 +325,43 @@ const saveTempData = () => {
 						content: i.xcy,
 						sperkerId: '743',
 						sceneId: '195803445',
-						width: 885,
-						height: 500,
+						width: 814,
+						height: 460,
 						footerVisible: true,
 						nodes: [...commonNode, ...[
 							{
 								"id":`text-${index}-t`,
-								"fontSize":24,
+								"fontSize":20,
 								"fontFamily":"Microsoft YaHei",
 								"type":"text-input",
+								"fontStyle": 'normal',
 								"text": i.title,
 								"fill":"#ffffff",
-								width: 630,
+								"width": i.title? i.title.length * 20 : 10,
 								"x": 87.5,
 								"y": 67,
 								"name":"node",
 								"draggable":true,
-								'height': 30,
-								'lineHeight': 1
+								'height': 22,
+								'lineHeight': 1,
+								"visible": true,
 							},
 							{
 								"id":`text-${index}-c`,
 								"fontSize": 18,
 								"fontFamily":"Microsoft JhengHei",
 								"type":"text-input",
+								"fontStyle": 'normal',
 								"text": i.ftyw,
 								"fill":"#ffffff",
-								width: 550,
+								"width": 500,
 								"x": 87.5,
 								"y": 120.5,
 								"name":"node",
 								"draggable":true,
-								'height': 243,
-								'lineHeight': 1.5
+								'height': i.ftyw? (i.ftyw.length * 20 / 500) * 20 * 1.8 : 20,
+								'lineHeight': 1.5,
+								"visible": true,
 							},
 						]]
 					});
@@ -362,7 +383,6 @@ const saveTempData = () => {
   const selectTempAction = (data:any) => {
 		setSpinText('模板加载中');
     	setMovieLoading(true);
-		console.log(data)
 		template(data, selectIndex);
   }
   //   获取编辑详情
@@ -385,17 +405,7 @@ const saveTempData = () => {
 };
   const replaceAllThumb = (list:any) => {
 	// 缩略图尺寸  159 * 90
-	//默认画布尺寸 885 * 500  scale 5.6  增大的画布尺寸是 1062 * 600  scale 6.7
-	// if (list.length > 0) {
-	// 	list.map((i:any) => {
-	// 		if (i.footerVisible) {
-
-	// 		} else {
-
-	// 		}
-	// 	})
-	// }
-
+	//默认画布尺寸 814 * 460  scale 5.6  增大的画布尺寸是 1062 * 600  scale 6.7
   }
   
    //   获取图片资源列表
@@ -419,7 +429,6 @@ const saveTempData = () => {
   //获取模板列表数据
   const getTempListAction = () => {
 	getTempListData({}).then(({data}) => {
-		console.log(data);
 		setTempList(data);
 	})
   }
@@ -428,7 +437,7 @@ const saveTempData = () => {
 	setDataLoad(false);
     const meTime = setInterval(() => {
 		saveByRealtime();
-    }, 5000);
+    }, 1500);
     setTimer(meTime);
   };
 
@@ -454,7 +463,7 @@ const saveTempData = () => {
 	let obj = {
 		list: list,
 		sceneId: sessionStorage.getItem('sceneId')? sessionStorage.getItem('sceneId') : '195803445',
-		sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png',
+		sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://gateway.leamt.com/bus/oss/tx/png/2023-05-31/6859d7e44db84850951e292f753ae00e.png',
 		sperkerId: sessionStorage.getItem('sperkerId')? sessionStorage.getItem('sperkerId') : '743'
 	};
 	let params = {
@@ -522,9 +531,9 @@ const saveTempData = () => {
             fill_color: '',
             line_spacing: s.lineHeight? s.lineHeight : 1,
             font_size: s.fontSize,
-            font_bold: s.fontWeight && s.fontWeight == 'bold' ? 1 : 0,
+            font_bold: s.fontStyle && s.fontStyle == 'bold' ? 1 : 0,
             font_name: s.fontFamily? filterFonts(s.fontFamily) : '宋体',
-            font_italic: s.fontStyle && s.fontStyle == 'oblique' ? 1 : 0,
+            font_italic: 0,
             font_color: s.fill,
             x: s.x,
             y: s.y,
@@ -556,7 +565,7 @@ const saveTempData = () => {
 		clearInterval(timer);
 		setDataLoad(false);
 		setTimeout(() => {
-			window.close();
+			// window.close();
 			setMovieLoading(false);
 		}, 1000);
     });
@@ -564,19 +573,20 @@ const saveTempData = () => {
   // 实时保存
   const saveByRealtime = () => {
 	const templateData = newCanvasRef.current.getTemplate();
+	// console.log(templateData)
     let list: any = [...dataListRef.current];
 	let Index:any = selectIndexRef.current;
 	if (templateData.length > 0) {
 		list[Index]['nodes'] = templateData;
 	}
-    let textValue: any = formRef.current?.getFieldValue('text');
+    let textValue: string = soundsValueRef.current;
     list[Index]['content'] = textValue;
 	list[Index]['footerVisible'] = footerVisibleRef.current;
     let obj = {
       list: list,
 	  selectIndex: Index,
       sceneId: sessionStorage.getItem('sceneId')? sessionStorage.getItem('sceneId') : '195803445',
-      sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://gateway.irked.cn/bus/oss/all/png/2023-05-19/825c6fc15f014d8eabbe22c460b2b9e5.png',
+      sceneUrl: sessionStorage.getItem('sceneUrl')? sessionStorage.getItem('sceneUrl') : 'https://gateway.leamt.com/bus/oss/tx/png/2023-05-31/6859d7e44db84850951e292f753ae00e.png',
 	  sperkerId: sessionStorage.getItem('sperkerId')? sessionStorage.getItem('sperkerId') : '743'
     };
     let params = {
@@ -586,7 +596,7 @@ const saveTempData = () => {
 	newInsertVideo(params)
       .then(res => {
 			setPagesList(list);
-			console.log(list)
+			// console.log(list)
     	})
       .catch(err => {
         setMovieLoading(false);
@@ -629,6 +639,7 @@ const saveTempData = () => {
 		})
 	}
 	list[Index]['nodes'] = templateData;
+	list[Index]['footerVisible'] = flag;
 	setPagesList(list);
 	template(list[Index], Index);
 	setFooterVisible(flag);
@@ -642,7 +653,6 @@ const saveTempData = () => {
     }
     let newObj = Array.isArray(obj) ? [] : {};
     for (let key in obj) {
-      // 遍历可枚举属性，包括原型链上的
       if (obj.hasOwnProperty(key)) {
         newObj[key] =
           typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
@@ -651,18 +661,14 @@ const saveTempData = () => {
     return newObj;
   }
   const template = (data: any, index: number, time?: number) => {
-	// console.log(data)
     setLoading(true);
 	setTemplate(deepClone(data));
 	setLoading(false);
 	setSelectIndex(index);
-	setFooterVisible(data.footerVisible? data.footerVisible : true);
+	setFooterVisible(data.footerVisible);
 	setMovieLoading(false);
 	setSpinText('');
-	formRef.current?.setFieldsValue({
-		text: data.content ? data.content : '',
-	});
-	
+	setSoundsValue(data.content);
   };
 
   const add = () => {
@@ -673,11 +679,12 @@ const saveTempData = () => {
         return false;
       }
     }
-    list.push(initData);
+	setSoundsValue('');
+    list.push({...initData});
+	template({...initData}, list.length - 1);
     setAddLoading(true);
     setPagesList(list);
 	setSelectIndex(list.length - 1);
-	template(initData, list.length - 1);
 	setAddLoading(false);
 	setFooterVisible(true);
 	let dom: any = document.querySelector('#pageBox');
@@ -699,17 +706,19 @@ const saveTempData = () => {
 		  onOk: () => {
 			let list = newCopy(pagesList);
 			list.splice(index, 1);
-			setPagesList(list);
 			if (list.length > 0) {
 			  if (index == 0) {
 				setSelectIndex(index);
 				template(list[index], index);
+				setPagesList(list);
 			  } else {
 				setSelectIndex(index - 1);
 				template(list[index - 1], index - 1);
+				setPagesList(list);
 			  }
 			} else {
 			  setSelectIndex(0);
+			  setPagesList(list);
 			}
 		  },
 		  okText: '确认',
@@ -737,6 +746,29 @@ const saveTempData = () => {
       cancelText: '取消',
     });
   };
+  const changeBG = () => {
+	setReplaceType('one');
+	setModalVisible(true);
+  }
+  const soundsChange = (e:any) => {
+	setSoundsValue(e.target.value);
+	saveByRealtime();
+  }
+  const selectPerson = (data:any) => {
+	let list = newCopy(pagesList);
+	if (list.length > 0) {
+		list.map((i:any, index: number) => {
+			if (i.nodes.length > 0) {
+				i.nodes.map((s:any) => {
+					if (s.id == 'shuziren') {
+						s.url = data.sceneUrl;
+					}
+				})
+			}
+		})
+	}
+	setPagesList(list);
+  }
   return (
     <Spin style={{width: '100%', height: '100%'}} tip={spinText} spinning={movieLoading}>
       <div id="videoSet">
@@ -748,11 +780,7 @@ const saveTempData = () => {
 			<span className='edit-btn' onClick={() =>setNameEdit(true)}><EditOutlined /></span>
 		  </div>
           <div className='btn-right'>
-		  <Button
-              onClick={saveTempAction}
-            >
-              保存为模板
-            </Button>
+		  	{/* <Button onClick={changeSession}>change</Button> */}
             <Button
               disabled={pagesList.length < 1}
               onClick={saveTemplate}
@@ -799,20 +827,20 @@ const saveTempData = () => {
 								</Tooltip>
 							</div>
 							) : null}
-							<div className='thumb-box' style={{backgroundImage: `url(${item.nodes.filter((k:any) => k.id == 'bg')? item.nodes.filter((k:any) => k.id == 'bg')[0].url : 'https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png'}) `, backgroundSize: '100% 100%'}}>
+							<div className='thumb-box' style={{background: item.nodes.filter((k:any) => k.id == 'bg').length > 0? item.nodes.filter((k:any) => k.id == 'bg')[0].type == 'bg-image'? `url(${item.nodes.filter((k:any) => k.id == 'bg')[0].url})` : item.nodes.filter((k:any) => k.id == 'bg')[0].fill : `url('https://gateway.irked.cn/bus/oss/all/png/2023-05-17/5e74f04cc0aa421cb381ef88aa185f8d.png')`}}>
 								{
 									item.nodes && item.nodes.map((i:any, s:number) => {
 										if (i.id === 'shuziren') {
 											return (
-												<img style={{top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8}} key={s} className='shuziren-image' src={i.url} alt="" />
+												<img style={{top: item.footerVisible? i.y * 2.3 : i.y * 1.95, left: item.footerVisible? i.x * 2.3 : i.x * 1.95, width: item.footerVisible? i.width * 2.3 : i.width * 1.95, height: item.footerVisible? i.height * 2.3 : i.height * 1.95}} key={s} className='shuziren-image' src={i.url} alt="" />
 											)
 										} else if (i.type == 'text-input') {
 											return (
-												<span key={s} className='text-span font' style={{display: 'block', top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8, fontSize: item.footerVisible? i.fontSize * 2.16 : i.fontSize * 1.8, color: i.fill, lineHeight: i.lineHeight}}>{i.text}</span>
+												<span key={s} className='text-span font' style={{display: 'block', top: item.footerVisible? i.y * 2.3 : i.y * 1.95, left: item.footerVisible? i.x * 2.3 : i.x * 1.95, width: item.footerVisible? i.width * 2.3 : i.width * 1.95, height: item.footerVisible? i.height * 2.3 : i.height * 1.95, fontSize: item.footerVisible? i.fontSize * 2.3 : i.fontSize * 1.95, color: i.fill, lineHeight: i.lineHeight, whiteSpace: 'pre-wrap'}}>{i.text}</span>
 											)
 										} if (i.type === 'image') {
 											return (
-												<img className='thumb-img' style={{top: item.footerVisible? i.y * 2.16 : i.y * 1.8, left: item.footerVisible? i.x * 2.16 : i.x * 1.8, width: item.footerVisible? i.width * 2.16 : i.width * 1.8, height: item.footerVisible? i.height * 2.16 : i.height * 1.8}} key={s} src={i.url} alt="" />
+												<img className='thumb-img' style={{top: item.footerVisible? i.y * 2.15 : i.y * 1.6, left: item.footerVisible? i.x * 2 : i.x * 1.6, width: item.footerVisible? i.width * 1 : i.width * 1, height: item.footerVisible? i.height * 1.5 : i.height * 1.5}} key={s} src={i.url} alt="" />
 											)
 										}
 									})
@@ -824,7 +852,7 @@ const saveTempData = () => {
 					})}
 				</div>
 				<div className='page_bot_btn'>
-					<span onClick={() =>setModalVisible(true)}>
+					<span onClick={() =>{setModalVisible(true), setReplaceType('all')}}>
 						<Tooltip placement="top" title="替换全部背景">
 							<Icon type="icon-kuaimenyoubeijing" style={{ fontSize: '24px', cursor: 'pointer'}}></Icon>
 						</Tooltip>
@@ -833,8 +861,26 @@ const saveTempData = () => {
           </div>
           <div className="right_box">
 			<div className={footerVisible? 'min_canvas right_top' : 'max_canvas right_top'}>
+				<div className="canvas-btn">
+					<Tooltip placement="right" title='替换本页背景'>
+						<div style={{width: '30px', height: '30px', color: '#999', cursor: 'pointer', textAlign: 'center', lineHeight: '30px', borderRadius: '2px', zIndex: '9', backgroundColor: '#fff', marginRight: '10px'}} className='replace-btn' onClick={changeBG}>
+							<Icon type="icon-kuaimenyoubeijing" style={{
+								fontSize: '18px',
+							}}
+							></Icon>
+						</div>
+					</Tooltip>
+					<Tooltip placement="right" title='保存本页为模板'>
+						<div style={{width: '30px', height: '30px', color: '#999', cursor: 'pointer', textAlign: 'center', lineHeight: '30px', borderRadius: '2px', zIndex: '9', backgroundColor: '#fff'}} className='replace-btn' onClick={saveTempAction}>
+							<Icon type="icon-baocun" style={{
+								fontSize: '18px',
+							}}
+							></Icon>
+						</div>
+					</Tooltip>
+				</div>
 				<div className="canvas_box">
-					<Canvas pagesList={pagesList} canvasWidth={footerVisible? 885 : 1062} canvasHeight={footerVisible? 500 : 600}></Canvas>
+					<Canvas pagesList={pagesList} canvasWidth={footerVisible? 814 : 982} canvasHeight={footerVisible? 460 : 555}></Canvas>
 				</div>
 			</div>
 			<div id="rightBot" className={footerVisible? 'right_bot max_height' : 'right_bot min_height'}>
@@ -846,31 +892,33 @@ const saveTempData = () => {
 						}
 					</span>
 				</div>
-				<Form ref={formRef} labelCol={{ span: 3 }} colon={false} onFinish={data => {}}>
+				<TextArea
+					onChange={soundsChange}
+					value={soundsValue}
+					placeholder="请输入语音讲解内容"
+					bordered={false}
+					showCount
+					rows={3}
+					maxLength={200}
+					allowClear
+					style={{ width: '100%', background: '#f2f2f2', resize: 'none' }}
+				/>
+				{/* <Form ref={formRef} labelCol={{ span: 3 }} colon={false} onFinish={data => {}}>
 					<Form.Item label="" name="text" rules={[{ required: true }]}>
-						<TextArea
-						onChange={saveByRealtime}
-						placeholder="请输入语音讲解内容"
-						bordered={false}
-						showCount
-						rows={3}
-						maxLength={200}
-						allowClear
-						style={{ width: '100%', background: '#f2f2f2', resize: 'none' }}
-						/>
+						
 					</Form.Item>
-				</Form>
+				</Form> */}
 			</div>
           </div>
 		  <div className='slider_box'>
 				<SliderLeft
-					formRef={formRef}
 					editId={props.location.query.id ? props.location.query.id : ''}
 					soundsList={soundsList}
 					personList={personList}
 					picList={picList}
 					tempList={tempList}
 					selectTempAction={selectTempAction}
+					selectPerson={selectPerson}
 				></SliderLeft>
 		  </div>
         </div>
@@ -896,12 +944,12 @@ const saveTempData = () => {
 			destroyOnClose
 			forceRender={true}
 			width={350}
-			title="替换全部背景"
+			title={replaceType == 'all'? '替换全部背景' : '替换本页背景'}
 			open={modalVisible}
 			onCancel={() => setModalVisible(false)}
 			footer={null}
 		>
-			<BackReplace pagesList={pagesList} type="all" onClose={() =>{setModalVisible(false)}}   />
+			<BackReplace pagesList={pagesList} type={replaceType} onClose={() =>{setModalVisible(false)}}   />
       	</Modal>
 		<Modal
 			bodyStyle={{ padding: 0 }}
@@ -924,4 +972,4 @@ const saveTempData = () => {
   );
 };
 
-export default AboutPage;
+export default NewPage;

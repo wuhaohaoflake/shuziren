@@ -80,29 +80,11 @@ const Canvas: FC<ICanvasProps> = props => {
   }
   return (
     <React.Fragment>
-      <div style={{width: `${props.canvasWidth}`, height: `${props.canvasHeight}`}} ref={ref}>
+      <div className='canvas-main-box' ref={ref}>
         {loading ? (
           <Spin />
         ) : (
-          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-			<Tooltip placement="right" title='替换本页背景'>
-				<div style={{width: '40px', height: '40px', cursor: 'pointer', textAlign: 'center', lineHeight: '40px',position: 'absolute', top: '5px', right: '5px', borderRadius: '5px', zIndex: '9', backgroundColor: 'rgba(0, 0, 0, 0.2)'}} className='replace-btn' onClick={changeBG}>
-					<Icon type="icon-kuaimenyoubeijing" style={{
-						fontSize: '24px',
-					}}
-					></Icon>
-				</div>
-			</Tooltip>
-			<Tooltip placement="right" title='保存本页为模板'>
-				<div style={{width: '40px', height: '40px', color: '#fff', cursor: 'pointer', textAlign: 'center', lineHeight: '40px',position: 'absolute', bottom: '5px', right: '5px', borderRadius: '5px', zIndex: '9', backgroundColor: 'rgba(0, 0, 0, 0.2)'}} className='replace-btn' onClick={changeBG}>
-					<Icon type="icon-baocun" style={{
-						fontSize: '24px',
-					}}
-					></Icon>
-				</div>
-			</Tooltip>
-            <div id="container" style={{ display: 'flex', justifyContent: 'center' }}></div>
-          </div>
+			<div id="container"></div>
         )}
 		<Modal
 			bodyStyle={{ padding: 0 }}

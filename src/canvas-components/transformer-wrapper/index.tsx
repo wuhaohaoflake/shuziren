@@ -104,7 +104,6 @@ const TransformerWrapper = (Component: FC<BaseProps>) => {
     }, [isSelected]);
 
     const onTransform = () => {
-		console.log('21212129')
       if (props.type !== 'text-input') {
         //只有text-input处理
         return;
@@ -159,7 +158,6 @@ const TransformerWrapper = (Component: FC<BaseProps>) => {
 
     const onDragEnd = useCallback(
       (e: Konva.KonvaEventObject<DragEvent>) => {
-        // console.warn('drag-end', props);
         setState(draft => {
           draft.isDrag = false;
         });
@@ -190,8 +188,6 @@ const TransformerWrapper = (Component: FC<BaseProps>) => {
             const node = shapeRef.current;
             const scaleX = node.scaleX();
             const scaleY = node.scaleY();
-            // we will reset it back
-            console.log(node);
             node.scaleX(1);
             node.scaleY(1);
             // console.log('scaleX=>', scaleX, scaleY);

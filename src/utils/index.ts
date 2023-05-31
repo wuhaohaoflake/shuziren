@@ -1,7 +1,7 @@
 export const newCopy = (arr:any) => {
    return JSON.parse(JSON.stringify(arr));
 }
-function deepClone(obj: any) {
+export const deepClone = (obj: any) =>{
     if (!obj || typeof obj !== 'object') {
       return;
     }

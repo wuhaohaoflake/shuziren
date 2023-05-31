@@ -16,6 +16,8 @@ import canvasDataModel from '@/models1/canvasDataModel';
 import canvasModel from '@/models1/canvasModel';
 import { useThrottleFn } from 'ahooks';
 import styles from './textPanel.less';
+import { deepClone } from '@/utils/index'
+
 
 const { Option } = Select;
 const fonts = [
@@ -75,13 +77,16 @@ const TextPanel: FC<ITextPanelProps> = props => {
   } = useModel(canvasDataModel);
   const { selectNode, canvasRef } = useModel(canvasModel);
   const [fontObj, setFontObj] = useState(selectNode);
+  useEffect(() => {
+	setFontObj(deepClone(selectNode));
+  }, [selectNode])
+  useEffect(() => {
 
-  useEffect(() => {}, [fontObj]);
-
+  }, [fontObj])
   const changeFont = (key: string, value: string) => {
     let obj = { ...fontObj };
     obj[key] = value;
-    setFontObj(obj);
+	setFontObj(obj);
     canvasRef?.updateShapeAttrsById(selectNode.id, { [key]: value });
   };
 

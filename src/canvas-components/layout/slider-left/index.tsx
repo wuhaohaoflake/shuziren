@@ -52,13 +52,13 @@ const itemData = [
 ];
 
 export interface IHeaderProps {
-  formRef?: any;
   soundsList?: any;
   personList?: any;
   picList?: any;
   tempList?: any;
   editId?: string;
   selectTempAction: (data:any) => void;
+  selectPerson: (data:any) => void;
 }
 
 const Slider: FC<IHeaderProps> = props => {
@@ -107,7 +107,7 @@ const Slider: FC<IHeaderProps> = props => {
 				<ImagePanel picList={props.picList} />
 			)}
 			{state.active === 'shuziren' && (
-				<ShuzirenPanel personList={props.personList} />
+				<ShuzirenPanel personList={props.personList} selectPerson={(data:any) => {props.selectPerson(data), setOpen(false)}} />
 			)}
 			{state.active === 'voice' && (
 				<VoicePanel soundsList={props.soundsList} />

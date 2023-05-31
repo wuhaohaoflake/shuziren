@@ -7,17 +7,19 @@ import './index.less';
 
 export interface IBGPanelProps {
   personList?: any;
+  selectPerson: (data:any) => void;
 }
 
 const BGPanel: FC<IBGPanelProps> = props => {
   const { canvasRef } = useModel(canvasModel);
-  const [selectPerson, setSelectPerson] = useState('195803445');
+  const [selectPersonId, setSelectPersonId] = useState('195803445');
 
   const addShuziren = (item: any) => {
     canvasRef?.addShuzirenImage(item.cover);
-	setSelectPerson(item.id);
+	setSelectPersonId(item.id);
 	sessionStorage.setItem('sceneId', item.id);
 	sessionStorage.setItem('sceneUrl', item.cover);
+	props.selectPerson({sceneId: item.id, sceneUrl: item.cover});
   };
 
   return (
@@ -25,7 +27,7 @@ const BGPanel: FC<IBGPanelProps> = props => {
       {props.personList.length > 0 &&
         props.personList.map((item: any, index: number) => {
           return (
-            <div key={index} className={item.id == selectPerson? 'shuziren-list person-active' : 'shuziren-list'}>
+            <div key={index} className={item.id == selectPersonId? 'shuziren-list person-active' : 'shuziren-list'}>
               <img onClick={() => addShuziren(item)} src={item.cover} />;
             </div>
           );

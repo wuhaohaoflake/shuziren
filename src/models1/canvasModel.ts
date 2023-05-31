@@ -15,8 +15,8 @@ const CanvasModel = ({ get, set }: any) => ({
   canvasRef: null,
   bgRef: null, // 背景实例对象
   stageData: {
-    width: 885,
-    height: 500,
+    width: 814,
+    height: 460,
     scale: 1,
   },
   loading: false,

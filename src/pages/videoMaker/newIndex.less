@@ -98,6 +98,7 @@ html, body {
 				top: 50%;
 				transform: scale(0.0833333) translate(-50%, -50%);
 				transform-origin: 0 0;
+				background-size: '100% 100%';
 				.shuziren-image {
 					position: absolute;
 				}
@@ -154,23 +155,42 @@ html, body {
 	  width: calc(100% - 180px);
 	  height: calc(100vh - 50px);
 	  .right_top {
-		display: flex;
-		justify-content: space-between;
-		background-color: #fff;
-		.canvas_box {
-			flex: 1;
+		overflow: hidden;
+		width: 100%;
+		position: relative;
+		background-color: #DCDCE1;
+		.canvas-btn {
+			width: 100%;
 			display: flex;
-			align-items: center;
 			justify-content: center;
+			align-items: center;
+			margin: 10px 0 0 0;
+		}
+		.canvas_box {
+			width: 100%;
+			position: absolute;
+			top: 40px;
+			left: 0;
+			bottom: 0;
 			background-color: #DCDCE1;
-			position: relative;
-			overflow: auto;
-			textarea {
-				border-style: dashed !important;
-				border-color: #f2f2f2 !important;
-				outline-style: dashed !important;
-				outline-color: #f2f2f2 !important;
+			.canvas-main-box {
+				overflow: auto;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				// padding: 10px;
+				#container {
+					textarea {
+						border-style: dashed !important;
+						border-color: #f2f2f2 !important;
+						outline-style: dashed !important;
+						outline-color: #f2f2f2 !important;
+					}
+				}
 			}
+			
 		}
 	  }
 	  .max_canvas {

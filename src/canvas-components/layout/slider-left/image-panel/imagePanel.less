@@ -5,27 +5,43 @@
   text-align: left;
   .Image_box {
     width: 100%;
-    // height: calc(100% - 100px);
-    height: 400px;
+    height: calc(100% - 100px);
     overflow-y: auto;
     margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    .image_list {
-      width: 48%;
-      height: 100px;
-      margin-bottom: 10px;
-      transition: all .2s linear;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .image_list:hover {
-      box-shadow: 0 4px 8px rgba(0,0,0,.1);
-      transform: translate3d(0,-2px,0);
-    }
+	.til {
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		color:#666;
+		font-size: 14px;
+	}
+	.img_box {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		align-content: flex-start;
+		.image_list {
+			width: 48%;
+			height: 74px;
+			margin-bottom: 10px;
+			overflow: hidden;
+			box-sizing: border-box;
+			img {
+			  width: 100%;
+			  height: 100%;
+			  transition: all .2s linear;
+			}
+		  }
+		  .image_list:hover {
+			  img {
+				  scale: 1.2;
+			  }
+		}
+		.icon_list {
+			width: 37px;
+			height: 43px;
+		}
+	}
   }
 }

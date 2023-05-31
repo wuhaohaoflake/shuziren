@@ -18,8 +18,8 @@ const recordPush = (nodes: any, undoRedoData: any, updateUndoRedoData: any) => {
   return newNodes;
 };
 const canvasDataModel = ({ get, set }: any) => ({
-  width: 885,
-  height: 500,
+  width: 814,
+  height: 460,
   nodes: newData || initData,
   changeCanvasModel: (currCanvasModel: any) => {
     set(currCanvasModel);

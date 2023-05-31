@@ -102,7 +102,7 @@ export async function getTempByProduct(params: any) {
 }
 // 获取视频详情
 export async function getNewVideoDetail(params: any) {
-  return request.get(`/web/api/video/progress/storage/get?type=${params.type}&productId=${params.productId}`);
+  return request.get(`/web/api/video/progress/storage/get?productId=${params.productId}`);
 }
 // 视频草稿保存
 export async function newInsertVideo(params: any) {
